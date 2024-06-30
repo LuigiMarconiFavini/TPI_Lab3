@@ -38,7 +38,7 @@ const DevScreen = () => {
         setNombre('');
         setCorreo('');
         setContrasena('');
-        fetchAdmins(); // Update the admin list
+        fetchAdmins(); 
       } else {
         alert('Hubo un error al crear la cuenta de Admin');
       }
@@ -50,7 +50,7 @@ const DevScreen = () => {
 
   const fetchAdmins = async () => {
     try {
-      const response = await fetch('https://localhost:7226/api/Admin/GetAllAdmin');
+      const response = await fetch('https://localhost:7226/api/User/GetAll');
       const data = await response.json();
       setAdmins(data);
     } catch (error) {
