@@ -1,36 +1,18 @@
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './components/login/Login';
+import Register from './components/register/Register';
 
-const SMARTPHONES = [
-  {
-    name: "iPhone 13 Pro",
-    brand: "Apple",
-    imageUrl: "",
-  },
-  {
-    name: "Samsung Galaxy S24 Ultra",
-    brand: "Samsung",
-    imageUrl: "",
-  },
-  {
-    name: "Google Pixel 6 Pro",
-    brand: "Google",
-    imageUrl: "",
-  },
-  {
-    name: "Motorola Edge 20 Pro",
-    brand: "Motorola",
-    imageUrl: " ",
-  },
-];
-
-function App() {
-
+const App = () => {
   return (
-    <>
-    
-    </>
-  )
-}
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </div>
+    </Router>
+  );
+};
 
-export default App
-
+export default App;
