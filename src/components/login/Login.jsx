@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Link , useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
+import PropTypes from 'prop-types';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -17,23 +18,15 @@ const Login = () => {
           const user = users.find((u) => u.name === storedUsername);
           if (user) {
             const role = user.role;
-            if (role === 'admin') {
-              navigate('/admin');
-            } else if (role === 'dev') {
-              navigate('/dev');
-            } else if (role === 'client') {
-              navigate('/client');
-            } else {
-              navigate('/');
-            }
+            onLogin(true, role); // Llamar a la función onLogin
+            navigate('/');
           }
         })
         .catch((error) => {
           console.error('Error fetching users:', error);
         });
     }
-  }, [navigate]);
-
+  }, [navigate, onLogin]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -64,12 +57,13 @@ const Login = () => {
             }
 
             const role = user.role;
+            onLogin(true, role); // Llamar a la función onLogin
             if (role === 'admin') {
-              navigate('/admin');
+              navigate('/');
             } else if (role === 'dev') {
-              navigate('/dev');
+              navigate('/');
             } else if (role === 'client') {
-              navigate('/client'); // Redirigir a la pantalla del cliente
+              navigate('/'); // Redirigir a la pantalla del cliente
             } else {
               navigate('/'); // Si no se especifica un rol válido, redirigir a la página principal
             }
@@ -101,20 +95,20 @@ const Login = () => {
         <div className="login-container">
           <h1>Inicia Sesión</h1>
           <form onSubmit={handleSubmit}> 
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)} 
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)} 
-          />
-          <button type="submit">Login</button> 
-        </form>
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)} 
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)} 
+            />
+            <button type="submit">Login</button> 
+          </form>
           <button className="btn btn-link">
             <Link to="/register">Crear cuenta</Link>
           </button>
@@ -123,5 +117,10 @@ const Login = () => {
     </div>
   );
 };
+
+Login.propTypes = {
+  onLogin: PropTypes.func.isRequired,
+};
+
 
 export default Login;
