@@ -3,6 +3,13 @@ import { useNavigate } from 'react-router-dom';
 
 function Header() {
   const navigate = useNavigate();
+  const isLoggedIn = !!localStorage.getItem('token');
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    navigate('/');
+  };
 
   return (
     <header className="header">
@@ -14,7 +21,16 @@ function Header() {
       <div className="icons">
         <span className="icon" onClick={() => navigate('/search')}>🔍</span>
         <span className="icon" onClick={() => navigate('/cart')}>🛒</span>
-        <span className="icon" onClick={() => navigate('/login')}>👤</span>
+        {isLoggedIn ? (
+          <span className="icon" onClick={handleLogout} >
+            🚪 Cerrar Sesión
+          </span>
+        ) : (
+          <span className="icon" onClick={() => navigate('/login')}>
+            👤 
+          </span>
+        )}
+        
       </div>
     </header>
   );

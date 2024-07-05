@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './Register.css'; // Archivo CSS para el diseño
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -8,6 +8,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -28,7 +29,7 @@ const Register = () => {
       }
       const data = await response.json();
       console.log('Registro exitoso:', data);
-      // Redirigir al login o manejar el registro de otra forma
+      navigate('/login');// Redirigir al login o manejar el registro de otra forma
     } catch (error) {
       setError('Error al crear la cuenta.');
     }

@@ -1,11 +1,39 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link , useNavigate} from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const storedUsername = localStorage.getItem('username');
+    if (token && storedUsername) {
+      fetch('https://localhost:7226/api/User/GetAll')
+        .then((response) => response.json())
+        .then((users) => {
+          const user = users.find((u) => u.name === storedUsername);
+          if (user) {
+            const role = user.role;
+            if (role === 'admin') {
+              navigate('/admin');
+            } else if (role === 'dev') {
+              navigate('/dev');
+            } else if (role === 'client') {
+              navigate('/client');
+            } else {
+              navigate('/');
+            }
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching users:', error);
+        });
+    }
+  }, [navigate]);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -72,7 +100,21 @@ const Login = () => {
       <div className="dev-screen-container">
         <div className="login-container">
           <h1>Inicia Sesión</h1>
-          {/* Tu formulario de login aquí */}
+          <form onSubmit={handleSubmit}> 
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)} 
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)} 
+          />
+          <button type="submit">Login</button> 
+        </form>
           <button className="btn btn-link">
             <Link to="/register">Crear cuenta</Link>
           </button>
