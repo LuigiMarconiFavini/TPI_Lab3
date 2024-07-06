@@ -1,14 +1,31 @@
 import './Header.css';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function Header() {
+function Header({ onSearch }) {
   const navigate = useNavigate();
   const isLoggedIn = !!localStorage.getItem('token');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     navigate('/');
+  };
+
+  const handleSearchClick = () => {
+    setIsSearching(!isSearching);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    onSearch(e.target.value); // Invoca la función de búsqueda con el nuevo valor 
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    onSearch(searchTerm);
   };
 
   return (
@@ -19,7 +36,19 @@ function Header() {
       </div>
       <button className="contact-button">Contáctanos!</button>
       <div className="icons">
-        <span className="icon" onClick={() => navigate('/search')}>🔍</span>
+        {isSearching && (
+          <form onSubmit={handleSearchSubmit} className="search-form">
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              placeholder="Buscar productos..."
+              className="search-input"
+            />
+            <button type="submit" className="search-button">🔍</button>
+          </form>
+        )}
+        <span className="icon" onClick={handleSearchClick}>🔍</span>
         <span className="icon" onClick={() => navigate('/cart')}>🛒</span>
         {isLoggedIn ? (
           <span className="icon" onClick={handleLogout} >
@@ -27,10 +56,10 @@ function Header() {
           </span>
         ) : (
           <span className="icon" onClick={() => navigate('/login')}>
-            👤 
+            👤
           </span>
         )}
-        
+
       </div>
     </header>
   );

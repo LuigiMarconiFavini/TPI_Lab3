@@ -37,3 +37,29 @@
     cursor: pointer;
     font-size: 24px; /* Aumenta el tamaño de los iconos */
   }
+
+  .search-form { 
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
+  
+  .search-input { 
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+  }
+  
+  .search-button { 
+    background-color: #00bfff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .search-button:hover { 
+    background-color: #90c1f5;
+  }
