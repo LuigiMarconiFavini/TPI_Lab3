@@ -6,6 +6,7 @@ import AdminScreen from './components/adminScreen/AdminScreen';
 import DevScreen from './components/devScreen/DevScreen';
 import PropTypes from 'prop-types';
 import Register from './components/register/Register';
+import CheckoutPage from './components/checkoutPage/CheckoutPage';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -16,7 +17,6 @@ const App = () => {
     const storedUsername = localStorage.getItem('username');
 
     if (token && storedUsername) {
-      // Realiza la autenticación y obtén el rol del usuario
       fetch('https://localhost:7226/api/User/GetAll')
         .then((response) => response.json())
         .then((users) => {
@@ -78,6 +78,7 @@ const App = () => {
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<HomePage />} />
+          <Route path="/checkout" element={<CheckoutPage />} /> 
         </Routes>
       </div>
     </Router>
